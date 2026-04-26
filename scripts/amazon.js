@@ -1,3 +1,8 @@
+import { cart as myCart } from "../data/cart.js"
+
+// import { cart as myCart } from "../data/cart.js"     this is applicable when avoiding naming conflict 
+
+
 
 
 let productsHTML = ''
@@ -90,6 +95,6 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
         document.querySelector('.js-cart-quantity').innerHTML = cartQuantity
 
-        
+
     })
 })
