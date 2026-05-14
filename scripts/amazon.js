@@ -9,8 +9,8 @@ import { formatCurrency } from "./utils/money.js"
 let productsHTML = ''
 
 products.forEach((product) => {
-    productsHTML +=
-        `<div class="product-container">
+   productsHTML +=
+      `<div class="product-container">
             <div class="product-image-container">
                <img class="product-image" src="${product.image}">
             </div>
@@ -20,14 +20,14 @@ products.forEach((product) => {
             </div>
 
             <div class="product-rating-container">
-               <img class="product-rating-stars" src="images/ratings/rating-${product.rating.stars * 10}.png">
+               <img class="product-rating-stars" src="${product.getstarsUrl()}">
                <div class="product-rating-count link-primary">
                   ${product.rating.count}
                </div>
             </div>
 
             <div class="product-price">
-               ${formatCurrency(product.priceCents)}
+               ${product.getPrice()}
             </div>
 
             <div class="product-quantity-container">
@@ -64,26 +64,26 @@ products.forEach((product) => {
 
 
 function updateCartQuantity() {
-    let cartQuantity = 0
+   let cartQuantity = 0
 
-    cart.forEach((cartItem) => {
-        cartQuantity += cartItem.quantity
-    })
+   cart.forEach((cartItem) => {
+      cartQuantity += cartItem.quantity
+   })
 
-    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity
+   document.querySelector('.js-cart-quantity').innerHTML = cartQuantity
 }
 
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML
 
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-    button.addEventListener('click', () => {
-        const productId = button.dataset.productId
-        //when dealing with dataset items is converted from kebab-case to camelCase
+   button.addEventListener('click', () => {
+      const productId = button.dataset.productId
+      //when dealing with dataset items is converted from kebab-case to camelCase
 
-        addToCart(productId)
+      addToCart(productId)
 
-        updateCartQuantity()
+      updateCartQuantity()
 
-    })
+   })
 })
