@@ -1,16 +1,15 @@
-import { cart, addToCart } from "../data/cart.js"
-import { products } from "../data/products.js"
-import { formatCurrency } from "./utils/money.js"
-// import { cart as myCart } from "../data/cart.js"     this is applicable when avoiding naming conflict 
+import { cart, addToCart } from "../data/cart.js";
+import { products, loadProducts } from "../data/products.js";
+import { formatCurrency } from "./utils/money.js";
+// import { cart as myCart } from "../data/cart.js"     this is applicable when avoiding naming conflict
 
+loadProducts(renderProductsGrid);
 
+function renderProductsGrid() {
+   let productsHTML = "";
 
-
-let productsHTML = ''
-
-products.forEach((product) => {
-   productsHTML +=
-      `<div class="product-container">
+   products.forEach((product) => {
+      productsHTML += `<div class="product-container">
             <div class="product-image-container">
                <img class="product-image" src="${product.image}">
             </div>
@@ -58,34 +57,29 @@ products.forEach((product) => {
             data-product-id="${product.id}">
                Add to Cart
             </button>
-         </div>`
+         </div>`;
+   });
 
+   function updateCartQuantity() {
+      let cartQuantity = 0;
 
-})
+      cart.forEach((cartItem) => {
+         cartQuantity += cartItem.quantity;
+      });
 
+      document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+   }
 
+   document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-function updateCartQuantity() {
-   let cartQuantity = 0
+   document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+      button.addEventListener("click", () => {
+         const productId = button.dataset.productId;
+         //when dealing with dataset items is converted from kebab-case to camelCase
 
-   cart.forEach((cartItem) => {
-      cartQuantity += cartItem.quantity
-   })
+         addToCart(productId);
 
-   document.querySelector('.js-cart-quantity').innerHTML = cartQuantity
+         updateCartQuantity();
+      });
+   });
 }
-
-
-document.querySelector('.js-products-grid').innerHTML = productsHTML
-
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-   button.addEventListener('click', () => {
-      const productId = button.dataset.productId
-      //when dealing with dataset items is converted from kebab-case to camelCase
-
-      addToCart(productId)
-
-      updateCartQuantity()
-
-   })
-})
